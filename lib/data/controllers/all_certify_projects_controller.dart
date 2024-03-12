@@ -2,40 +2,40 @@ import 'dart:async';
 
 import 'package:certify/core/constants/enum.dart';
 import 'package:certify/data/controllers/base_controller.dart';
-import 'package:certify/data/model_data/all_projects_model.dart';
-import 'package:certify/data/services/certify_project_services.dart';
+import 'package:certify/data/model_data/all_certified_projects.dart';
+import 'package:certify/data/services/all_certified_service.dart';
 import 'package:certify/data/services/error_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final certifyProjectsController =
-    ChangeNotifierProvider<AllManufacturerProjectsController>(
-        (ref) => AllManufacturerProjectsController());
+final allCertifiedProjectsController =
+    ChangeNotifierProvider<AllProjectsController>(
+        (ref) => AllProjectsController());
 
-class AllManufacturerProjectsController extends BaseChangeNotifier {
-  ProjectServices projectServices = ProjectServices();
-  AllProjectsModel allManufacturerProjectsModel = AllProjectsModel();
-
+class AllProjectsController extends BaseChangeNotifier {
+  AllCertifiedServices allCertifiedServices = AllCertifiedServices();
+  AllCertifiedProjectsModel allCertifiedProjectsModel =
+      AllCertifiedProjectsModel();
   void disposeAllProjectsController() {
-    allManufacturerProjectsModel = AllProjectsModel();
+    allCertifiedProjectsModel = AllCertifiedProjectsModel();
   }
 
   Future<bool> toGetAllProjects() async {
     // Check if the entire model has data
-    // if (allProjectsModel.projects?.isNotEmpty ?? false) {
-    //   // loadingState = LoadingState.idle;
-    //   return true;
-    // }
+    if (allCertifiedProjectsModel.description != null) {
+      // loadingState = LoadingState.idle;
+      return true;
+    }
 
     try {
       loadingState = LoadingState.loading;
       debugPrint('shh To Get All Manufacturer Projects');
-      final res = await projectServices.getProjects();
+      final res = await allCertifiedServices.getAllCertifiedProjects();
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer shh ${res.data}");
-        allManufacturerProjectsModel = AllProjectsModel.fromJson(res.data);
-        debugPrint("INFO: Done converting network data to dart model");
+        allCertifiedProjectsModel = AllCertifiedProjectsModel.fromMap(res.data);
+        debugPrint("INFO: Done");
         loadingState = LoadingState.idle;
         return true;
       } else {

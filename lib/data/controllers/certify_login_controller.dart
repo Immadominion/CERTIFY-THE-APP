@@ -30,6 +30,10 @@ class LoginController extends BaseChangeNotifier {
           key: 'token',
           value: token,
         );
+        await locator<SecureStorageService>().write(
+          key: 'email',
+          value: email,
+        );
         loadingState = LoadingState.idle;
         return true;
       } else {

@@ -1,13 +1,18 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:certify/core/constants/enum.dart';
 import 'package:certify/core/constants/env_assets.dart';
 import 'package:certify/core/extensions/widget_extension.dart';
+import 'package:certify/data/controllers/create_project_controller.dart';
 import 'package:certify/presentation/general_components/auth_component_1.dart';
 import 'package:certify/presentation/general_components/cta_button.dart';
 import 'package:certify/presentation/general_components/general_example_screen.dart';
+import 'package:certify/presentation/general_components/shared_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,10 +25,6 @@ class CreateProduct extends ConsumerStatefulWidget {
 }
 
 class _CreateProductState extends ConsumerState<CreateProduct> {
-  late String imagePath = "";
-  final ImagePicker picker = ImagePicker();
-  late XFile? pickedFile;
-  late final Uint8List? image;
   late TextEditingController nameController;
   late TextEditingController shortNameController;
   late TextEditingController descriptionController;
@@ -36,29 +37,13 @@ class _CreateProductState extends ConsumerState<CreateProduct> {
     descriptionController = TextEditingController();
   }
 
-  Future<bool> _pickImage() async {
-    pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      // Get the file path from the picked image
-      imagePath = pickedFile!.path;
-      debugPrint('Image Path: $imagePath');
-
-      // You can use imagePath as needed (e.g., display in an Image widget)
-      // Example:
-      // Image.file(File(imagePath));
-      setState(() {});
-      return true;
-    } else {
-      debugPrint('No image selected.');
-      return false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer(builder: (context, ref, child) {
+        final LoadingState loadingState =
+            ref.read(createProjectController).loadingState;
+        final bool isLoading = loadingState == LoadingState.loading;
         return Stack(
           children: [
             ListView(
@@ -156,9 +141,7 @@ class _CreateProductState extends ConsumerState<CreateProduct> {
                             highlightColor: Colors.transparent,
                             splashColor: Colors.transparent,
                             onTap: () {
-                              _pickImage().then((value) {
-                                setState(() {});
-                              });
+                              ref.read(createProjectController).pickImage();
                             },
                             child: Center(
                               child: Container(
@@ -182,7 +165,11 @@ class _CreateProductState extends ConsumerState<CreateProduct> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(15.r),
                                   child: Image.file(
-                                    File(imagePath),
+                                    File(
+                                      ref
+                                          .watch(createProjectController)
+                                          .imagePath,
+                                    ),
                                     fit: BoxFit.fitHeight,
                                     width: 300.w,
                                     height: 300.h,
@@ -258,13 +245,53 @@ class _CreateProductState extends ConsumerState<CreateProduct> {
                             EdgeInsets.only(bottom: 10.h),
                           ),
                           SizedBox(
-                            height: 30.h,
+                            height: 35.h,
                             width: 200.w,
-                            child: CustomButton(pageCTA: 'Create Project')
-                                .afmBorderRadius(BorderRadius.circular(20.r)),
+                            child: CustomButton(
+                              buttonOnPressed: () {
+                                ref
+                                    .read(createProjectController)
+                                    .toCreateProject(
+                                      nameController.text,
+                                      shortNameController.text,
+                                      descriptionController.text,
+                                    )
+                                    .then((value) {
+                                  if (value == true) {
+                                    setState(() {});
+                                    AwesomeDialog(
+                                      context: context,
+                                      animType: AnimType.scale,
+                                      dialogType: DialogType.success,
+                                      title: 'Successful',
+                                      desc:
+                                          'You have successfully created a project',
+                                      btnOkOnPress: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ).show();
+                                  } else {
+                                    setState(() {});
+                                    AwesomeDialog(
+                                      context: context,
+                                      animType: AnimType.scale,
+                                      dialogType: DialogType.success,
+                                      title: 'Failed',
+                                      desc:
+                                          'Your project could not be created!',
+                                      btnOkOnPress: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ).show();
+                                  }
+                                });
+                              },
+                              pageCTA: 'Create Project',
+                            ).afmBorderRadius(BorderRadius.circular(20.r)),
                           ).afmPadding(EdgeInsets.only(top: 10.h)),
                         ],
                       ),
+                      if (isLoading) const TransparentLoadingScreen(),
                     ],
                   ),
                 ),

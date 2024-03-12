@@ -25,7 +25,8 @@ class _HomeState extends ConsumerState<Home>
   late AnimationController _controller;
   late Animation<double> _animation;
   late final listProjects = ref.read(certifyProjectsController.notifier);
-
+  late final LoadingState loadingState = listProjects.loadingState;
+  late final bool isLoading = loadingState == LoadingState.loading;
   List<String> dataList = [];
 
   @override
@@ -39,9 +40,7 @@ class _HomeState extends ConsumerState<Home>
 
     _animation = Tween<double>(begin: 0, end: 1)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
+      ..addListener(() {});
     Future.delayed(Duration.zero, () {
       fetchData();
     });
@@ -63,11 +62,9 @@ class _HomeState extends ConsumerState<Home>
 
   @override
   Widget build(BuildContext context) {
+    print('rebuilt object');
     return Scaffold(
       body: Consumer(builder: (context, ref, child) {
-        final LoadingState loadingState = listProjects.loadingState;
-        final bool isLoading = loadingState == LoadingState.loading;
-
         return Stack(
           children: [
             ListView(
@@ -157,60 +154,85 @@ class _HomeState extends ConsumerState<Home>
                   child: Stack(
                     children: [
                       ListView.builder(
-                        itemCount:
-                            listProjects.allProjectsModel.projects?.length ?? 1,
+                        itemCount: listProjects.allManufacturerProjectsModel
+                                .projects?.length ??
+                            1,
                         itemExtent: 200.h,
                         itemBuilder: ((context, index) {
                           dataList = [
-                            listProjects
-                                    .allProjectsModel.projects?[index].name ??
+                            listProjects.allManufacturerProjectsModel
+                                    .projects?[index].name ??
                                 '',
-                            listProjects
-                                    .allProjectsModel.projects?[index].status ??
+                            listProjects.allManufacturerProjectsModel
+                                    .projects?[index].status ??
                                 '',
-                            listProjects
-                                    .allProjectsModel.projects?[index].image ??
+                            listProjects.allManufacturerProjectsModel
+                                    .projects?[index].image ??
                                 '',
-                            listProjects
-                                    .allProjectsModel.projects?[index].name ??
+                            listProjects.allManufacturerProjectsModel
+                                    .projects?[index].name ??
                                 '',
-                            listProjects
-                                    .allProjectsModel.projects?[index].status ??
+                            listProjects.allManufacturerProjectsModel
+                                    .projects?[index].status ??
                                 '',
-                            listProjects
-                                    .allProjectsModel.projects?[index].image ??
+                            listProjects.allManufacturerProjectsModel
+                                    .projects?[index].image ??
                                 '',
                           ];
-                          for (int i = 0; i < dataList.length; i += 6) {
-                            // Ensure there are at least 6 elements remaining in the list
-                            if (i + 6 <= dataList.length) {
-                              return dataList[0] == ''
-                                  ? Center(
-                                      child: Lottie.asset(
-                                        "assets/animation/null-animation.json",
-                                        controller: _controller,
-                                        onLoaded: (composition) {
-                                          _controller
-                                            ..duration = composition.duration
-                                            ..repeat();
-                                        },
-                                      ),
-                                    )
-                                  : groupOfCards(
-                                      dataList[i],
-                                      dataList[i + 1],
-                                      dataList[i + 2],
-                                      const RouteWhereYouGo(),
-                                      dataList[i + 3],
-                                      dataList[i + 4],
-                                      dataList[i + 5],
-                                      const RouteWhereYouGo(),
-                                      context,
-                                      _animation,
-                                    );
-                            }
-                          }
-                          return const SizedBox();
+                          return dataList[0] == ''
+                              ? Center(
+                                  child: Lottie.asset(
+                                    "assets/animation/null-animation.json",
+                                    controller: _controller,
+                                    onLoaded: (composition) {
+                                      _controller
+                                        ..duration = composition.duration
+                                        ..repeat();
+                                    },
+                                  ),
+                                )
+                              : groupOfCards(
+                                  dataList[0],
+                                  dataList[1],
+                                  dataList[2],
+                                  const RouteWhereYouGo(),
+                                  dataList[3],
+                                  dataList[4],
+                                  dataList[5],
+                                  const RouteWhereYouGo(),
+                                  context,
+                                  _animation,
+                                );
+                          // for (int i = 0; i < dataList.length; i += 6) {
+                          //   // Ensure there are at least 6 elements remaining in the list
+                          //   if (i + 6 <= dataList.length) {
+                          //     return dataList[0] == ''
+                          //         ? Center(
+                          //             child: Lottie.asset(
+                          //               "assets/animation/null-animation.json",
+                          //               controller: _controller,
+                          //               onLoaded: (composition) {
+                          //                 _controller
+                          //                   ..duration = composition.duration
+                          //                   ..repeat();
+                          //               },
+                          //             ),
+                          //           )
+                          //         : groupOfCards(
+                          //             dataList[i],
+                          //             dataList[i + 1],
+                          //             dataList[i + 2],
+                          //             const RouteWhereYouGo(),
+                          //             dataList[i + 3],
+                          //             dataList[i + 4],
+                          //             dataList[i + 5],
+                          //             const RouteWhereYouGo(),
+                          //             context,
+                          //             _animation,
+                          //           );
+                          //   }
+                          // }
+                          // return const SizedBox();
                         }),
                       ),
                       if (isLoading) const TransparentLoadingScreen(),
