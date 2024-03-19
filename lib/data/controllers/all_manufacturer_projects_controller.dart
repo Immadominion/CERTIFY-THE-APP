@@ -15,31 +15,29 @@ final certifyProjectsController =
 
 class AllManufacturerProjectsController extends BaseChangeNotifier {
   ProjectServices projectServices = ProjectServices();
-  AllProjectsModel allManufacturerProjectsModel = AllProjectsModel();
+  AllManufacturerProjectsModel allManufacturerProjectsModel =
+      AllManufacturerProjectsModel();
 
   void disposeAllProjectsController() {
-    allManufacturerProjectsModel = AllProjectsModel();
+    allManufacturerProjectsModel = AllManufacturerProjectsModel();
   }
 
   Future<bool> toGetAllProjects() async {
-    // Check if the entire model has data
-    // if (allProjectsModel.projects?.isNotEmpty ?? false) {
-    //   // loadingState = LoadingState.idle;
-    //   return true;
-    // }
-
     try {
       loadingState = LoadingState.loading;
       debugPrint('shh To Get All Manufacturer Projects');
       final res = await projectServices.getProjects();
+      debugPrint("Starting out operation on data");
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer shh ${res.data}");
-        allManufacturerProjectsModel = AllProjectsModel.fromJson(res.data);
+        allManufacturerProjectsModel =
+            AllManufacturerProjectsModel.fromJson(res.data);
         debugPrint("INFO: Done converting network data to dart model");
         loadingState = LoadingState.idle;
         return true;
       } else {
         loadingState = LoadingState.idle;
+        debugPrint("Closing out operation");
         throw Error();
       }
     } on DioException catch (e) {

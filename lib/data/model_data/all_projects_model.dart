@@ -1,12 +1,12 @@
-class AllProjectsModel {
+class AllManufacturerProjectsModel {
   final List<ProjectModel>? projects;
 
-  AllProjectsModel({
+  AllManufacturerProjectsModel({
     this.projects,
   });
 
-  factory AllProjectsModel.fromJson(List<dynamic>? json) {
-    return AllProjectsModel(
+  factory AllManufacturerProjectsModel.fromJson(List<dynamic>? json) {
+    return AllManufacturerProjectsModel(
       projects: json != null
           ? List<ProjectModel>.from(
               json.map((projectJson) => ProjectModel.fromJson(projectJson)),
