@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget card(String title, String subtitle, String imageUrl, Widget route,
-    context, animation) {
+    context, animation, Function()? saveUp) {
   double w = MediaQuery.of(context).size.width;
   return Opacity(
     opacity: animation.value,
@@ -15,10 +15,9 @@ Widget card(String title, String subtitle, String imageUrl, Widget route,
       splashColor: Colors.transparent,
       onTap: () {
         Navigator.of(context).push(MyFadeRoute(route: route));
+        saveUp!();
       },
       child: Container(
-        width: w / 2.36,
-        height: w / 1.8,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -29,7 +28,7 @@ Widget card(String title, String subtitle, String imageUrl, Widget route,
         child: Column(
           children: [
             Container(
-              width: w / 2.36,
+              width: double.maxFinite,
               height: w / 2.6,
               decoration: BoxDecoration(
                 color: const Color(0xff5C71F3),
@@ -41,7 +40,7 @@ Widget card(String title, String subtitle, String imageUrl, Widget route,
               child: Image.network(
                 imageUrl,
                 fit: BoxFit.fitHeight,
-                width: w / 2.36,
+                width: double.maxFinite,
                 height: w / 2.6,
                 loadingBuilder: (
                   BuildContext context,

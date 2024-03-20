@@ -68,12 +68,11 @@ class ManufacturerHome extends HookConsumerWidget {
       tabBuilder: ((context, index) {
         switch (index) {
           case 0:
-            //TODO: return the home key
             homeKey.currentState?.popUntil(
               (route) => route.isFirst,
             );
             return CupertinoTabView(
-              // key: homeKey,
+              key: homeKey,
               builder: (context) {
                 return const CupertinoPageScaffold(
                   child: Home(),
@@ -84,8 +83,9 @@ class ManufacturerHome extends HookConsumerWidget {
             certifyKey.currentState?.popUntil(
               (route) => route.isFirst,
             );
+            //TODO: Return Key ASAP
             return CupertinoTabView(
-              key: certifyKey,
+              // key: certifyKey,
               builder: (context) {
                 return const CupertinoPageScaffold(
                   child: CertifiedHome(),

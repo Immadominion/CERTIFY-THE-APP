@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:certify/core/constants/enum.dart';
 import 'package:certify/data/controllers/base_controller.dart';
-import 'package:certify/data/model_data/all_certified_projects.dart';
+import 'package:certify/data/model_data/all_certified_projects_model.dart';
 import 'package:certify/data/services/all_certified_service.dart';
 import 'package:certify/data/services/error_service.dart';
 import 'package:dio/dio.dart';
@@ -17,39 +17,52 @@ class AllProjectsController extends BaseChangeNotifier {
   AllCertifiedServices allCertifiedServices = AllCertifiedServices();
   AllCertifiedProjectsModel allCertifiedProjectsModel =
       AllCertifiedProjectsModel();
-  void disposeAllProjectsController() {
+  bool _shouldReload = false;
+  bool get shouldReload => _shouldReload;
+
+  set shouldReload(bool reload) {
+    _shouldReload = reload;
+    notifyListeners();
+  }
+
+  void disposeAllCertifiedProjectsController() {
     allCertifiedProjectsModel = AllCertifiedProjectsModel();
   }
 
-  Future<bool> toGetAllProjects() async {
+  Future<bool> toGetAllCertifyProjects() async {
     // Check if the entire model has data
-    if (allCertifiedProjectsModel.description != null) {
-      // loadingState = LoadingState.idle;
-      return true;
-    }
-
-    try {
-      loadingState = LoadingState.loading;
-      debugPrint('shh To Get All Manufacturer Projects');
-      final res = await allCertifiedServices.getAllCertifiedProjects();
-      if (res.statusCode == 200) {
-        debugPrint("INFO: Bearer shh ${res.data}");
-        allCertifiedProjectsModel = AllCertifiedProjectsModel.fromMap(res.data);
-        debugPrint("INFO: Done");
+    debugPrint(
+        "Value of model is ==> ${allCertifiedProjectsModel.results?.length.toString()}");
+    if (shouldReload || allCertifiedProjectsModel.results?.length == null) {
+      try {
+        loadingState = LoadingState.loading;
+        debugPrint('shh To Get All Manufacturer Projects');
+        final res = await allCertifiedServices.getAllCertifiedProjects();
+        if (res.statusCode == 200) {
+          debugPrint("INFO: Bearer shh ${res.data}");
+          allCertifiedProjectsModel =
+              AllCertifiedProjectsModel.fromMap(res.data);
+          debugPrint("INFO: Done");
+          loadingState = LoadingState.idle;
+          _shouldReload = false;
+          return true;
+        } else {
+          loadingState = LoadingState.idle;
+          _shouldReload = false;
+          throw Error();
+        }
+      } on DioException catch (e) {
         loadingState = LoadingState.idle;
-        return true;
-      } else {
+        _shouldReload = false;
+        ErrorService.handleErrors(e);
+        return false;
+      } catch (e) {
         loadingState = LoadingState.idle;
-        throw Error();
+        _shouldReload = false;
+        ErrorService.handleErrors(e);
+        return false;
       }
-    } on DioException catch (e) {
-      loadingState = LoadingState.idle;
-      ErrorService.handleErrors(e);
-      return false;
-    } catch (e) {
-      loadingState = LoadingState.idle;
-      ErrorService.handleErrors(e);
-      return false;
     }
+    return true;
   }
 }

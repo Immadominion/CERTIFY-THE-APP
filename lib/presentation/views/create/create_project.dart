@@ -3,28 +3,23 @@ import 'dart:ui';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:certify/core/constants/enum.dart';
-import 'package:certify/core/constants/env_assets.dart';
 import 'package:certify/core/extensions/widget_extension.dart';
 import 'package:certify/data/controllers/create_project_controller.dart';
 import 'package:certify/presentation/general_components/auth_component_1.dart';
 import 'package:certify/presentation/general_components/cta_button.dart';
-import 'package:certify/presentation/general_components/general_example_screen.dart';
 import 'package:certify/presentation/general_components/shared_loading.dart';
+import 'package:certify/presentation/views/shared_widgets/header_pad.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 
-class CreateProduct extends ConsumerStatefulWidget {
-  const CreateProduct({super.key});
+class CreateProject extends ConsumerStatefulWidget {
+  const CreateProject({super.key});
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CreateProductState();
 }
 
-class _CreateProductState extends ConsumerState<CreateProduct> {
+class _CreateProductState extends ConsumerState<CreateProject> {
   late TextEditingController nameController;
   late TextEditingController shortNameController;
   late TextEditingController descriptionController;
@@ -50,86 +45,11 @@ class _CreateProductState extends ConsumerState<CreateProduct> {
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
               children: [
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 10.sp, horizontal: 10.sp),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'CERTIFY',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontFamily: "Montesserat",
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          SizedBox(height: 5.h),
-                          Text(
-                            "Create A Product",
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: "Montesserat",
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
-                      ),
-                      InkWell(
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const RouteWhereYouGo();
-                              },
-                            ),
-                          );
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(25.r)),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
-                            child: Container(
-                              height: 50.h,
-                              width: 50.w,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onBackground
-                                    .withOpacity(.1),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  EnvAssets.getSvgPath("Order-History"),
-                                  width: 23.w,
-                                  height: 23.h,
-                                  // ignore: deprecated_member_use
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground
-                                      .withOpacity(.8),
-                                  semanticsLabel: "Create Product",
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ).afmPadding(
-                    EdgeInsets.only(left: 15.sp, right: 10.sp),
-                  ),
+                CertifyHeader(
+                  heading: 'CERTIFY',
+                  headerBody: "Create A Product",
+                  icon: Icons.add_business_rounded,
+                  onTap: () {},
                 ),
                 SizedBox(
                   height: 535.h,

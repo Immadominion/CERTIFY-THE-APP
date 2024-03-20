@@ -10,9 +10,8 @@ class AllCertifiedServices with DioMixin {
       'Content-Type': 'application/json',
       'Connection': 'keep-alive',
     };
-    final response = await connect(customHeaders: customHeaders).get(
-      '/listProjects',
-    );
+    final response = await connect(customHeaders: customHeaders)
+        .get('', data: {"page": "2", "limit": "10"});
     return response;
   }
 }

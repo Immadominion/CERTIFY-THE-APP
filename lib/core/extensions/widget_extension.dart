@@ -53,9 +53,9 @@ extension WidgetExtension on Widget {
   Widget afmPadding([EdgeInsetsGeometry? padding]) {
     return Padding(
       padding: padding ??
-          const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
+          EdgeInsets.symmetric(
+            horizontal: 10.h,
+            vertical: 10.w,
           ),
       child: this,
     );
