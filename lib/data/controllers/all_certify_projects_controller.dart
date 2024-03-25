@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_is_empty
+
 import 'dart:async';
 
 import 'package:certify/core/constants/enum.dart';
@@ -33,7 +35,7 @@ class AllProjectsController extends BaseChangeNotifier {
     // Check if the entire model has data
     debugPrint(
         "Value of model is ==> ${allCertifiedProjectsModel.results?.length.toString()}");
-    if (shouldReload || allCertifiedProjectsModel.results?.length == null) {
+    if (shouldReload || allCertifiedProjectsModel.results?.length == 0) {
       try {
         loadingState = LoadingState.loading;
         debugPrint('shh To Get All Manufacturer Projects');

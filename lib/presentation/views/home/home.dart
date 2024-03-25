@@ -44,15 +44,13 @@ class CertifiedHomeState extends ConsumerState<CertifiedHome>
   }
 
   Future<void> fetchData() async {
-    // final listProjects = ref.read(certifyProjectsController);
     await listProjects.toGetAllCertifyProjects();
-    // Update the dataList here based on the fetched data
-    setState(() {});
   }
 
   @override
   void dispose() {
     _controller.dispose();
+
     super.dispose();
   }
 
@@ -97,47 +95,73 @@ class CertifiedHomeState extends ConsumerState<CertifiedHome>
                       height: 535.h,
                       child: Stack(
                         children: [
-                          GridView.builder(
-                            padding: EdgeInsets.all(15.w),
-                            itemCount: listProjects.allCertifiedProjectsModel
-                                    .results?.length ??
-                                1,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: 180.h,
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10.h,
-                              crossAxisSpacing: 10.w,
-                            ),
-                            itemBuilder: ((context, index) {
-                              return listProjects.allCertifiedProjectsModel
-                                          .results?.isEmpty ??
-                                      false
-                                  ? Center(
-                                      child: Lottie.asset(
-                                        "assets/animation/null-animation.json",
-                                        controller: _controller,
-                                        onLoaded: (composition) {
-                                          _controller
-                                            ..duration = composition.duration
-                                            ..repeat();
-                                        },
-                                      ),
-                                    )
-                                  : homePageCard(
-                                      listProjects.allCertifiedProjectsModel
-                                              .results?[index].image
-                                              ?.toString() ??
-                                          "",
-                                      listProjects.allCertifiedProjectsModel
-                                              .results?[index].name
-                                              .toString() ??
-                                          "",
-                                      context,
-                                      const DemoPage(),
-                                      listProjects.shouldReload,
-                                    );
-                            }),
+                          FutureBuilder(
+                            future: ref
+                                .read(allCertifiedProjectsController)
+                                .toGetAllCertifyProjects(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const TransparentLoadingScreen();
+                              } else if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return GridView.builder(
+                                  padding: EdgeInsets.all(15.w),
+                                  itemCount: listProjects
+                                          .allCertifiedProjectsModel
+                                          .results
+                                          ?.length ??
+                                      1,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisExtent: 180.h,
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10.h,
+                                    crossAxisSpacing: 10.w,
+                                  ),
+                                  itemBuilder: ((context, index) {
+                                    return listProjects
+                                                .allCertifiedProjectsModel
+                                                .results
+                                                ?.isEmpty ??
+                                            false
+                                        ? Center(
+                                            child: Lottie.asset(
+                                              "assets/animation/null-animation.json",
+                                              controller: _controller,
+                                              onLoaded: (composition) {
+                                                _controller
+                                                  ..duration =
+                                                      composition.duration
+                                                  ..repeat();
+                                              },
+                                            ),
+                                          )
+                                        : homePageCard(
+                                            listProjects
+                                                    .allCertifiedProjectsModel
+                                                    .results?[index]
+                                                    .image
+                                                    ?.toString() ??
+                                                "",
+                                            listProjects
+                                                    .allCertifiedProjectsModel
+                                                    .results?[index]
+                                                    .name
+                                                    .toString() ??
+                                                "",
+                                            context,
+                                            const DemoPage(),
+                                            listProjects.shouldReload,
+                                          );
+                                  }),
+                                );
+                              } else {
+                                return const Center(
+                                  child: TransparentLoadingScreen(),
+                                );
+                              }
+                            },
                           ),
                           if (isLoading) const TransparentLoadingScreen(),
                         ],

@@ -167,63 +167,77 @@ class _CreateSingleNftState extends ConsumerState<CreateSingleNft> {
                           EdgeInsets.symmetric(vertical: 10.h),
                         ),
                         SizedBox(
-                          height: 35.h,
-                          width: 200.w,
-                          child: CustomButton(
-                            buttonOnPressed: () {
-                              ref
-                                  .read(createProjectController)
-                                  .toCreateSingleNft(
-                                    nameController.text,
-                                    symbolController.text,
-                                    ref
-                                        .read(certifyProjectsController)
-                                        .projectId,
-                                  )
-                                  .then((value) {
-                                if (value == true) {
-                                  setState(() {});
-                                  AwesomeDialog(
-                                    context: context,
-                                    animType: AnimType.scale,
-                                    dialogType: DialogType.success,
-                                    title: 'Successful',
-                                    desc:
-                                        'You have successfully created a project',
-                                    btnOkOnPress: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ).show();
-                                  Future.delayed(
-                                    Duration.zero,
-                                    () {
-                                      disposeData();
-                                    },
-                                  );
-                                } else {
-                                  setState(() {});
-                                  AwesomeDialog(
-                                    context: context,
-                                    animType: AnimType.scale,
-                                    dialogType: DialogType.error,
-                                    title: 'Failed',
-                                    desc: 'Your project could not be created!',
-                                    btnOkOnPress: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ).show();
-                                  Future.delayed(
-                                    Duration.zero,
-                                    () {
-                                      disposeData();
-                                    },
-                                  );
-                                }
-                              });
-                            },
-                            pageCTA: 'Create Single Nft',
-                          ).afmBorderRadius(BorderRadius.circular(20.r)),
-                        ).afmPadding(EdgeInsets.only(top: 10.h)),
+                          height: 10.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Large Project? \nCreate multiple nfts",
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            SizedBox(
+                              height: 35.h,
+                              width: 150.w,
+                              child: CustomButton(
+                                buttonOnPressed: () {
+                                  ref
+                                      .read(createProjectController)
+                                      .toCreateSingleNft(
+                                        nameController.text,
+                                        symbolController.text,
+                                        ref
+                                            .read(certifyProjectsController)
+                                            .projectId,
+                                      )
+                                      .then((value) {
+                                    if (value == true) {
+                                      setState(() {});
+                                      AwesomeDialog(
+                                        context: context,
+                                        animType: AnimType.scale,
+                                        dialogType: DialogType.success,
+                                        title: 'Successful',
+                                        desc:
+                                            'You have successfully created a project',
+                                        btnOkOnPress: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ).show();
+                                      Future.delayed(
+                                        Duration.zero,
+                                        () {
+                                          disposeData();
+                                        },
+                                      );
+                                    } else {
+                                      setState(() {});
+                                      AwesomeDialog(
+                                        context: context,
+                                        animType: AnimType.scale,
+                                        dialogType: DialogType.error,
+                                        title: 'Failed',
+                                        desc:
+                                            'Your project could not be created!',
+                                        btnOkOnPress: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ).show();
+                                      Future.delayed(
+                                        Duration.zero,
+                                        () {
+                                          disposeData();
+                                        },
+                                      );
+                                    }
+                                  });
+                                },
+                                pageCTA: 'Create Single Nft',
+                              ).afmBorderRadius(BorderRadius.circular(20.r)),
+                            ),
+                          ],
+                        ).afmPadding(EdgeInsets.symmetric(horizontal: 30.sp)),
                       ],
                     ),
                     if (isLoading) const TransparentLoadingScreen(),
