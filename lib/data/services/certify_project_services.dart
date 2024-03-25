@@ -15,4 +15,18 @@ class ProjectServices with DioMixin {
     );
     return response;
   }
+
+  ///To get the user projects available and their corresponding ID
+  Future<Response<dynamic>> getAllManufacturersProjectsNFTs() async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).get(
+      '/nfts',
+      data: {"project_id": "3", "page": "1", "limit": "10"},
+    );
+    return response;
+  }
 }

@@ -14,6 +14,7 @@ class ManufacturerHome extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final GlobalKey<NavigatorState> dashboardKey = GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> homeKey = GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> certifyKey = GlobalKey<NavigatorState>();
     final GlobalKey<NavigatorState> profileKey = GlobalKey<NavigatorState>();
@@ -23,14 +24,54 @@ class ManufacturerHome extends HookConsumerWidget {
       "All Products",
       "Profile",
     ];
-    // List<IconData> listOfIcons = [
-    //   Icons.home_filled,
-    //   Icons.playlist_add_check_circle_rounded,
-    //   Icons.person,
-    // ];
+
+    final List<Widget> tabs = [
+      const Home(),
+      const CertifiedHome(),
+      const Profile(),
+    ];
+
     final dashboardController = ref.watch(dashBoardControllerProvider);
     final selectedPageIndex = dashboardController.myPage;
-    return CupertinoTabScaffold(
+    return Scaffold(
+      body: tabs[selectedPageIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedPageIndex,
+        onTap: (value) {
+          dashboardController.switchPage(value);
+          HapticFeedback.lightImpact();
+        },
+        items: <BottomNavigationBarItem>[
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Home',
+            label: listOfString[0],
+            index: 0,
+          ),
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Order-History',
+            label: listOfString[1],
+            index: 1,
+          ),
+          buildBottomNavigationBarItem(
+            ref,
+            context,
+            iconPath: 'Profile',
+            label: listOfString[2],
+            index: 2,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/**
+ * 
+ *  CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         currentIndex: selectedPageIndex,
         onTap: (value) {
@@ -68,9 +109,10 @@ class ManufacturerHome extends HookConsumerWidget {
       tabBuilder: ((context, index) {
         switch (index) {
           case 0:
-            homeKey.currentState?.popUntil(
-              (route) => route.isFirst,
-            );
+            // homeKey.currentState?.popUntil(
+            //   (route) => route.isFirst,
+            // );
+
             return CupertinoTabView(
               key: homeKey,
               builder: (context) {
@@ -80,12 +122,11 @@ class ManufacturerHome extends HookConsumerWidget {
               },
             );
           case 1:
-            certifyKey.currentState?.popUntil(
-              (route) => route.isFirst,
-            );
-            //TODO: Return Key ASAP
+            // certifyKey.currentState?.popUntil(
+            //   (route) => route.isFirst,
+            // );
             return CupertinoTabView(
-              // key: certifyKey,
+              key: certifyKey,
               builder: (context) {
                 return const CupertinoPageScaffold(
                   child: CertifiedHome(),
@@ -93,9 +134,9 @@ class ManufacturerHome extends HookConsumerWidget {
               },
             );
           case 2:
-            profileKey.currentState?.popUntil(
-              (route) => route.isFirst,
-            );
+            // profileKey.currentState?.popUntil(
+            //   (route) => route.isFirst,
+            // );
             return CupertinoTabView(
               key: profileKey,
               builder: (context) {
@@ -107,7 +148,7 @@ class ManufacturerHome extends HookConsumerWidget {
 
           default:
             return CupertinoTabView(
-              key: homeKey,
+              key: dashboardKey,
               builder: (context) {
                 return const CupertinoPageScaffold(
                   child: Home(),
@@ -117,5 +158,4 @@ class ManufacturerHome extends HookConsumerWidget {
         }
       }),
     );
-  }
-}
+ */

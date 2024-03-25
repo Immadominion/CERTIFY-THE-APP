@@ -135,6 +135,7 @@ class CertifiedHomeState extends ConsumerState<CertifiedHome>
                                           "",
                                       context,
                                       const DemoPage(),
+                                      listProjects.shouldReload,
                                     );
                             }),
                           ),

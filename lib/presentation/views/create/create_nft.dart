@@ -3,16 +3,17 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:certify/core/constants/enum.dart';
 import 'package:certify/core/extensions/widget_extension.dart';
+import 'package:certify/data/controllers/all_manufacturer_projects_controller.dart';
 import 'package:certify/data/controllers/create_project_controller.dart';
 import 'package:certify/presentation/general_components/auth_component_1.dart';
 import 'package:certify/presentation/general_components/cta_button.dart';
 import 'package:certify/presentation/general_components/shared_loading.dart';
 import 'package:certify/presentation/views/shared_widgets/header_pad.dart';
+import 'package:certify/presentation/views/shared_widgets/status_bar_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//TODO: TO Implement user creation of only one NFT >><<>><<
 class CreateSingleNft extends ConsumerStatefulWidget {
   const CreateSingleNft({super.key});
   @override
@@ -21,19 +22,35 @@ class CreateSingleNft extends ConsumerStatefulWidget {
 }
 
 class _CreateSingleNftState extends ConsumerState<CreateSingleNft> {
-  late TextEditingController nameController;
-  late TextEditingController symbolController;
+  late final TextEditingController nameController;
+  late final TextEditingController symbolController;
 
   @override
   void initState() {
     super.initState();
+    resetStatusBarColor();
     nameController = TextEditingController();
     symbolController = TextEditingController();
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    symbolController.dispose();
+    super.dispose();
+  }
+
+  Future<void> disposeData() async {
+    // final listProjects = ref.read(certifyProjectsController);
+    ref.read(createProjectController).dispose;
+    // Update the dataList here based on the fetched data
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Consumer(builder: (context, ref, child) {
         final LoadingState loadingState =
             ref.read(createProjectController).loadingState;
@@ -41,8 +58,6 @@ class _CreateSingleNftState extends ConsumerState<CreateSingleNft> {
         return Stack(
           children: [
             ListView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
               children: [
                 CertifyHeader(
                   heading: 'CERTIFY',
@@ -133,7 +148,7 @@ class _CreateSingleNftState extends ConsumerState<CreateSingleNft> {
                         ),
                         component1(
                           Icons.person,
-                          'Name...',
+                          'Name',
                           false,
                           true,
                           context,
@@ -143,7 +158,7 @@ class _CreateSingleNftState extends ConsumerState<CreateSingleNft> {
                         ),
                         component1(
                           Icons.abc,
-                          'Abbreviation...',
+                          'Model',
                           false,
                           true,
                           context,
@@ -158,10 +173,12 @@ class _CreateSingleNftState extends ConsumerState<CreateSingleNft> {
                             buttonOnPressed: () {
                               ref
                                   .read(createProjectController)
-                                  .toCreateProject(
+                                  .toCreateSingleNft(
                                     nameController.text,
                                     symbolController.text,
-                                    symbolController.text,
+                                    ref
+                                        .read(certifyProjectsController)
+                                        .projectId,
                                   )
                                   .then((value) {
                                 if (value == true) {
@@ -177,22 +194,34 @@ class _CreateSingleNftState extends ConsumerState<CreateSingleNft> {
                                       Navigator.pop(context);
                                     },
                                   ).show();
+                                  Future.delayed(
+                                    Duration.zero,
+                                    () {
+                                      disposeData();
+                                    },
+                                  );
                                 } else {
                                   setState(() {});
                                   AwesomeDialog(
                                     context: context,
                                     animType: AnimType.scale,
-                                    dialogType: DialogType.success,
+                                    dialogType: DialogType.error,
                                     title: 'Failed',
                                     desc: 'Your project could not be created!',
                                     btnOkOnPress: () {
                                       Navigator.pop(context);
                                     },
                                   ).show();
+                                  Future.delayed(
+                                    Duration.zero,
+                                    () {
+                                      disposeData();
+                                    },
+                                  );
                                 }
                               });
                             },
-                            pageCTA: 'Create Project',
+                            pageCTA: 'Create Single Nft',
                           ).afmBorderRadius(BorderRadius.circular(20.r)),
                         ).afmPadding(EdgeInsets.only(top: 10.h)),
                       ],

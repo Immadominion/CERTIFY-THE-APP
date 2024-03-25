@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:certify/core/constants/enum.dart';
 import 'package:certify/data/controllers/base_controller.dart';
 import 'package:certify/data/model_data/all_manufacturer_projects_model.dart';
+import 'package:certify/data/model_data/user_projects_nfts_model.dart';
 import 'package:certify/data/services/certify_project_services.dart';
 import 'package:certify/data/services/error_service.dart';
 import 'package:dio/dio.dart';
@@ -17,20 +18,24 @@ class AllManufacturerProjectsController extends BaseChangeNotifier {
   ProjectServices projectServices = ProjectServices();
   AllManufacturerProjectsModel allManufacturerProjectsModel =
       AllManufacturerProjectsModel();
+  UserProjectsNftsModel allManufacturerProjectsNFTSModel =
+      UserProjectsNftsModel();
   bool _shouldReload = false;
   bool get shouldReload => _shouldReload;
   String _imageUrl = "";
   String get imageUrl => _imageUrl;
   String _projectName = "";
+  String _projectId = "";
   String _symbol = "";
   String _description = "";
   String _mintAddress = "";
   String _sellerFreeBasisPoints = "";
   String get projectName => _projectName;
-  String get symbol => _projectName;
-  String get description => _projectName;
-  String get mintAddress => _projectName;
-  String get sellerFreeBasisPoints => _projectName;
+  String get projectId => _projectId;
+  String get symbol => _symbol;
+  String get description => _description;
+  String get mintAddress => _mintAddress;
+  String get sellerFreeBasisPoints => _sellerFreeBasisPoints;
 
   set shouldReload(bool reload) {
     _shouldReload = reload;
@@ -43,9 +48,15 @@ class AllManufacturerProjectsController extends BaseChangeNotifier {
     notifyListeners();
   }
 
-  set projectName(String url) {
-    _projectName = url;
+  set projectName(String projName) {
+    _projectName = projName;
     debugPrint("Project Name Has Been Saved Successfully");
+    notifyListeners();
+  }
+
+  set projectId(String projId) {
+    _projectId = projId;
+    debugPrint("Project ID Has Been Saved Successfully");
     notifyListeners();
   }
 
@@ -110,5 +121,37 @@ class AllManufacturerProjectsController extends BaseChangeNotifier {
       }
     }
     return true;
+  }
+
+  Future<bool> toGetAllManufacturerProjectsNFTs() async {
+    debugPrint(
+        "Value of nft model is ==> ${allManufacturerProjectsNFTSModel.toString()}");
+    try {
+      loadingState = LoadingState.loading;
+      debugPrint('shh To Get All Manufacturer NFTs');
+      final res = await projectServices.getAllManufacturersProjectsNFTs();
+      debugPrint("Starting out operation on data");
+      if (res.statusCode == 200) {
+        debugPrint("INFO: Bearer shh ${res.data}");
+        allManufacturerProjectsNFTSModel =
+            UserProjectsNftsModel.fromMap(res.data);
+        debugPrint("INFO: Done converting network data to dart nfts model");
+        shouldReload = false;
+        loadingState = LoadingState.idle;
+        return true;
+      } else {
+        loadingState = LoadingState.idle;
+        debugPrint("Closing out operation");
+        throw Error();
+      }
+    } on DioException catch (e) {
+      loadingState = LoadingState.idle;
+      ErrorService.handleErrors(e);
+      return false;
+    } catch (e) {
+      loadingState = LoadingState.idle;
+      ErrorService.handleErrors(e);
+      return false;
+    }
   }
 }

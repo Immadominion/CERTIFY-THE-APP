@@ -95,6 +95,9 @@ String _extractErrorMessage(DioError e) {
       errorMessage = responseData['message'].toString();
     } else {
       debugPrint('Response Data Structure: $responseData');
+      locator<ToastService>().showErrorToast(
+        responseData.toString(),
+      );
     }
   } catch (error) {
     log('Error extracting error message: $error');

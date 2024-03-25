@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:certify/core/constants/enum.dart';
@@ -13,13 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CreateProject extends ConsumerStatefulWidget {
-  const CreateProject({super.key});
+class CreateNewProject extends ConsumerStatefulWidget {
+  const CreateNewProject({super.key});
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CreateProductState();
 }
 
-class _CreateProductState extends ConsumerState<CreateProject> {
+class _CreateProductState extends ConsumerState<CreateNewProject> {
   late TextEditingController nameController;
   late TextEditingController shortNameController;
   late TextEditingController descriptionController;
@@ -30,6 +29,14 @@ class _CreateProductState extends ConsumerState<CreateProject> {
     nameController = TextEditingController();
     shortNameController = TextEditingController();
     descriptionController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    shortNameController.dispose();
+    descriptionController.dispose();
+    super.dispose();
   }
 
   @override

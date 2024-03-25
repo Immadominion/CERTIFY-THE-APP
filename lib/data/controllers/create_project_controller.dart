@@ -87,4 +87,43 @@ class CreateProjectController extends BaseChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> toCreateSingleNft(
+    String nameFotNft,
+    String symbol,
+    String idOfExistingProject,
+  ) async {
+    loadingState = LoadingState.loading;
+    try {
+      final fileName = imageFile.path.split('/').last;
+      debugPrint('FileName: $fileName');
+      debugPrint('FilePath : $imagePath');
+      FormData formData = FormData.fromMap({
+        'name': nameFotNft,
+        'symbol': symbol,
+        'project': idOfExistingProject,
+        'image': await MultipartFile.fromFile(
+          imagePath,
+        ),
+      });
+      final response = await createProject.createASingleNft(formData: formData);
+
+      log(response.toString());
+      if (response.statusCode == 200) {
+        // model = ProfileModel.fromJson(response.data);
+        loadingState = LoadingState.idle;
+        return true;
+      } else {
+        return false;
+      }
+    } on DioException catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+      return false;
+    } catch (e) {
+      loadingState = LoadingState.error;
+      ErrorService.handleErrors(e);
+      return false;
+    }
+  }
 }

@@ -47,12 +47,13 @@ class _HomeState extends ConsumerState<Home>
     // final listProjects = ref.read(certifyProjectsController);
     await listProjects.toGetAllManufacturerProjects();
     // Update the dataList here based on the fetched data
-    setState(() {});
+    // setState(() {});
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _animation.removeListener(() {});
     super.dispose();
   }
 
@@ -79,7 +80,7 @@ class _HomeState extends ConsumerState<Home>
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const CreateProject();
+                          return const CreateNewProject();
                         },
                       ),
                     );
@@ -134,12 +135,22 @@ class _HomeState extends ConsumerState<Home>
                                     const ProjectDetails(),
                                     context,
                                     _animation, () {
-                                    setState(() {});
                                     debugPrint("Starting out action $index");
                                     listProjects.imageUrl = listProjects
                                             .allManufacturerProjectsModel
                                             .projects?[index]
                                             .image ??
+                                        "";
+                                    listProjects.projectName = listProjects
+                                            .allManufacturerProjectsModel
+                                            .projects?[index]
+                                            .name ??
+                                        "";
+                                    listProjects.projectId = listProjects
+                                            .allManufacturerProjectsModel
+                                            .projects?[index]
+                                            .id
+                                            .toString() ??
                                         "";
                                     listProjects.symbol = listProjects
                                             .allManufacturerProjectsModel

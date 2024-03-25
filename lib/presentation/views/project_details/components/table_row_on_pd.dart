@@ -18,14 +18,21 @@ TableRow tableRowOnPd(String leftText, String rightText, BuildContext context,
       TableCell(
         child: Row(
           mainAxisAlignment:
-              MainAxisAlignment.end, // Align content to the right
+              MainAxisAlignment.start, // Align content to the right
           children: [
-            Text(
-              rightText,
-              style: TextStyle(
-                color: copyText
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onSurface,
+            Container(
+              padding: EdgeInsets.only(left: 7.w),
+              width: 170.w,
+              child: Text(
+                rightText,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: copyText
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurface,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                softWrap: true,
               ),
             ),
             copyText

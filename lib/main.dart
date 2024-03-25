@@ -2,6 +2,7 @@ import 'package:certify/core/theme/text_theme_manager.dart';
 import 'package:certify/data/controllers/certify_dashboard_controller.dart';
 import 'package:certify/presentation/general_components/shared_loading.dart';
 import 'package:certify/presentation/views/manufacturer_home/manufacturer_dashboard.dart';
+import 'package:certify/presentation/views/manufacturer_home/manufacturer_home.dart';
 import 'package:certify/presentation/views/shared_auth/auth_navigation.dart';
 import 'package:certify/utils/locator.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:certify/presentation/general_components/shared_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,8 +9,8 @@ Widget homePageCard(
   String title,
   BuildContext context,
   Widget route,
+  bool _forceReloadImage,
 ) {
-
   return Transform.translate(
     offset: const Offset(0, 0),
     child: InkWell(
@@ -55,40 +57,17 @@ Widget homePageCard(
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(50.r)),
-                  child: Image.network(
-                    name,
-                    fit: BoxFit.contain,
-                    loadingBuilder: (
-                      BuildContext context,
-                      Widget child,
-                      ImageChunkEvent? loadingProgress,
-                    ) {
-                      if (loadingProgress == null) {
-                        // Image is fully loaded
-                        return child;
-                      } else {
-                        // Show a loading indicator or placeholder while the image is loading
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    (loadingProgress.expectedTotalBytes ?? 1)
-                                : null,
-                          ),
-                        );
-                      }
-                    },
-                    errorBuilder: (BuildContext context, Object error,
-                        StackTrace? stackTrace) {
-                      // Show a fallback widget when the image fails to load
-                      return const Center(
-                        child: Icon(
-                          Icons.error,
-                          color: Colors.red,
-                        ),
-                      );
-                    },
-                  ),
+                  child: CachedNetworkImage(
+                      key: ValueKey(_forceReloadImage),
+                      imageUrl: name,
+                      fit: BoxFit.fitHeight,
+                      // width: double.maxFinite,
+                      placeholder: (context, url) =>
+                          const Center(child: TransparentLoadingScreen()),
+                      errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          )),
                 )),
             Text(
               title,
