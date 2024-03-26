@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:certify/core/constants/enum.dart';
 import 'package:certify/data/controllers/base_controller.dart';
 import 'package:certify/data/model_data/all_certified_projects_model.dart';
 import 'package:certify/data/services/all_certified_service.dart';
@@ -35,31 +34,31 @@ class AllProjectsController extends BaseChangeNotifier {
     // Check if the entire model has data
     debugPrint(
         "Value of model is ==> ${allCertifiedProjectsModel.results?.length.toString()}");
-    if (shouldReload || allCertifiedProjectsModel.results?.length == 0) {
+    if (shouldReload || allCertifiedProjectsModel.results?.length == null) {
       try {
-        loadingState = LoadingState.loading;
+        // loadingState = LoadingState.loading;
         debugPrint('shh To Get All Manufacturer Projects');
         final res = await allCertifiedServices.getAllCertifiedProjects();
         if (res.statusCode == 200) {
           debugPrint("INFO: Bearer shh ${res.data}");
           allCertifiedProjectsModel =
-              AllCertifiedProjectsModel.fromMap(res.data);
+              AllCertifiedProjectsModel.fromJson(res.data);
           debugPrint("INFO: Done");
-          loadingState = LoadingState.idle;
+          // loadingState = LoadingState.idle;
           _shouldReload = false;
           return true;
         } else {
-          loadingState = LoadingState.idle;
+          // loadingState = LoadingState.idle;
           _shouldReload = false;
           throw Error();
         }
       } on DioException catch (e) {
-        loadingState = LoadingState.idle;
+        // loadingState = LoadingState.idle;
         _shouldReload = false;
         ErrorService.handleErrors(e);
         return false;
       } catch (e) {
-        loadingState = LoadingState.idle;
+        // loadingState = LoadingState.idle;
         _shouldReload = false;
         ErrorService.handleErrors(e);
         return false;

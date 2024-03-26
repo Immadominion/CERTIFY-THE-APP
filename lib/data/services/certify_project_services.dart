@@ -17,7 +17,8 @@ class ProjectServices with DioMixin {
   }
 
   ///To get the user projects available and their corresponding ID
-  Future<Response<dynamic>> getAllManufacturersProjectsNFTs() async {
+  Future<Response<dynamic>> getAllManufacturersProjectsNFTs(
+      String projectID) async {
     final customHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -25,7 +26,7 @@ class ProjectServices with DioMixin {
     };
     final response = await connect(customHeaders: customHeaders).get(
       '/nfts',
-      data: {"project_id": "3", "page": "1", "limit": "10"},
+      data: {"project_id": projectID, "page": "1", "limit": "14"},
     );
     return response;
   }

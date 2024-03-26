@@ -35,12 +35,12 @@ class CertifiedHomeState extends ConsumerState<CertifiedHome>
       duration: const Duration(seconds: 1),
     );
 
-    Future.delayed(
-      Duration.zero,
-      () {
-        fetchData();
-      },
-    );
+    // Future.delayed(
+    //   Duration.zero,
+    //   () {
+    //     fetchData();
+    //   },
+    // );
   }
 
   Future<void> fetchData() async {

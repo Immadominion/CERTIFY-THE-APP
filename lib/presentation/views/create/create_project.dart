@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:certify/core/constants/enum.dart';
 import 'package:certify/core/extensions/widget_extension.dart';
+import 'package:certify/data/controllers/all_certify_projects_controller.dart';
+import 'package:certify/data/controllers/all_manufacturer_projects_controller.dart';
 import 'package:certify/data/controllers/create_project_controller.dart';
 import 'package:certify/presentation/general_components/auth_component_1.dart';
 import 'package:certify/presentation/general_components/cta_button.dart';
@@ -185,7 +187,14 @@ class _CreateProductState extends ConsumerState<CreateNewProject> {
                                     )
                                     .then((value) {
                                   if (value == true) {
-                                    setState(() {});
+                                    setState(() {
+                                      ref
+                                          .read(certifyProjectsController)
+                                          .shouldReload = true;
+                                      ref
+                                          .read(allCertifiedProjectsController)
+                                          .shouldReload = true;
+                                    });
                                     AwesomeDialog(
                                       context: context,
                                       animType: AnimType.scale,

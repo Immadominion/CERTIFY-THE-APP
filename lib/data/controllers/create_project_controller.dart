@@ -100,8 +100,8 @@ class CreateProjectController extends BaseChangeNotifier {
       debugPrint('FilePath : $imagePath');
       FormData formData = FormData.fromMap({
         'name': nameFotNft,
-        'symbol': symbol,
-        'project': idOfExistingProject,
+        'description': symbol,
+        'project_id': idOfExistingProject,
         'image': await MultipartFile.fromFile(
           imagePath,
         ),

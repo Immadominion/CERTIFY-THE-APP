@@ -21,7 +21,7 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _animation;
+  // late final Animation<double> _animation;
   late final _projectsController;
 
   @override
@@ -32,9 +32,9 @@ class _HomeState extends ConsumerState<Home>
       duration: const Duration(seconds: 1),
     );
 
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    )..addListener(() {});
+    // _animation = Tween<double>(begin: 0, end: 1).animate(
+    //   CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    // )..addListener(() {});
 
     _projectsController = ref.read(certifyProjectsController.notifier);
 
@@ -45,7 +45,7 @@ class _HomeState extends ConsumerState<Home>
   @override
   void dispose() {
     _controller.dispose();
-    _animation.removeListener(() {});
+    // _animation.removeListener(() {});
     super.dispose();
   }
 
@@ -101,7 +101,7 @@ class _HomeState extends ConsumerState<Home>
                             } else if (snapshot.connectionState ==
                                 ConnectionState.done) {
                               return buildGridView(
-                                  ref, isLoading, _controller, _animation);
+                                  ref, isLoading, _controller);
                             } else {
                               return const Center(
                                 child: TransparentLoadingScreen(),

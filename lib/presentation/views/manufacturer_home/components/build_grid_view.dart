@@ -9,7 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
 Widget buildGridView(WidgetRef ref, bool isLoading, 
-controller, animation) {
+controller, ) {
     final List<ProjectModel>? projects = ref
         .watch(certifyProjectsController)
         .allManufacturerProjectsModel
@@ -49,7 +49,6 @@ controller, animation) {
           project?.image ?? '',
           const ProjectDetails(),
           context,
-          animation,
           () {
             debugPrint("Starting out action $index");
             updateListProjects(ref, project);

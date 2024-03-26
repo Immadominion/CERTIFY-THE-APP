@@ -11,7 +11,7 @@ class AllCertifiedServices with DioMixin {
       'Connection': 'keep-alive',
     };
     final response = await connect(customHeaders: customHeaders)
-        .get('', data: {"page": "2", "limit": "10"});
+        .get('', data: {"page": "1", "limit": "30"});
     return response;
   }
 }

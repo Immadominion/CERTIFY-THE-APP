@@ -7,98 +7,95 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget card(String title, String subtitle, String imageUrl, Widget route,
-    context, animation, Function()? saveUp) {
+    context, Function()? saveUp) {
   double w = MediaQuery.of(context).size.width;
-  return Opacity(
-    opacity: animation.value,
-    child: InkWell(
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      onTap: () {
-        Navigator.of(context).push(MyFadeRoute(route: route));
-        saveUp!();
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(.05), blurRadius: 50),
-          ],
-        ),
-        child: Column(
-          children: [
-            Container(
+  return InkWell(
+    highlightColor: Colors.transparent,
+    splashColor: Colors.transparent,
+    onTap: () {
+      Navigator.of(context).push(MyFadeRoute(route: route));
+      saveUp!();
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(.05), blurRadius: 50),
+        ],
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: double.maxFinite,
+            height: w / 2.6,
+            decoration: BoxDecoration(
+              color: const Color(0xff5C71F3),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20.r),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              fit: BoxFit.fitHeight,
               width: double.maxFinite,
               height: w / 2.6,
-              decoration: BoxDecoration(
-                color: const Color(0xff5C71F3),
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20.r),
-                ),
-              ),
-              alignment: Alignment.center,
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                fit: BoxFit.fitHeight,
-                width: double.maxFinite,
-                height: w / 2.6,
-                placeholder: (context, url) =>
-                    const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Icon(
-                  Icons.error,
-                  color: Colors.red,
-                ),
-              ),
-            ).afmBorderRadius(
-              BorderRadius.only(
-                topRight: Radius.circular(
-                  20.r,
-                ),
-                topLeft: Radius.circular(
-                  20.r,
-                ),
+              placeholder: (context, url) =>
+                  const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+                color: Colors.red,
               ),
             ),
-            Container(
-              height: w / 6,
-              width: w / 2.36,
-              padding: EdgeInsets.symmetric(horizontal: w / 25),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    textScaleFactor: 1.4,
-                    maxLines: 1,
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(.8),
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Montesserat",
-                    ),
-                  ),
-                  Text(
-                    subtitle,
-                    textScaleFactor: 1,
-                    maxLines: 1,
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.sp,
-                      fontFamily: "Montesserat",
-                      color: Colors.black.withOpacity(.7),
-                    ),
-                  ),
-                ],
+          ).afmBorderRadius(
+            BorderRadius.only(
+              topRight: Radius.circular(
+                20.r,
+              ),
+              topLeft: Radius.circular(
+                20.r,
               ),
             ),
-          ],
-        ),
+          ),
+          Container(
+            height: w / 6,
+            width: w / 2.36,
+            padding: EdgeInsets.symmetric(horizontal: w / 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  textScaleFactor: 1.4,
+                  maxLines: 1,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(.8),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Montesserat",
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  textScaleFactor: 1,
+                  maxLines: 1,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.sp,
+                    fontFamily: "Montesserat",
+                    color: Colors.black.withOpacity(.7),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     ),
   );

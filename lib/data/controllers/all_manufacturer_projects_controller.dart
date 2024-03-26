@@ -129,7 +129,8 @@ class AllManufacturerProjectsController extends BaseChangeNotifier {
     try {
       loadingState = LoadingState.loading;
       debugPrint('shh To Get All Manufacturer NFTs');
-      final res = await projectServices.getAllManufacturersProjectsNFTs();
+      final res =
+          await projectServices.getAllManufacturersProjectsNFTs(projectId);
       debugPrint("Starting out operation on data");
       if (res.statusCode == 200) {
         debugPrint("INFO: Bearer shh ${res.data}");
