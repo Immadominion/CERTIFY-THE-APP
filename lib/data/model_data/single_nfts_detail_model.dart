@@ -1,13 +1,25 @@
 class SingleNFTDetailsModel {
   final NftModel? nft;
-  final String? qr;
+  final QRModel? qr;
 
   SingleNFTDetailsModel({this.nft, this.qr});
 
   factory SingleNFTDetailsModel.fromJson(Map<String, dynamic> json) =>
       SingleNFTDetailsModel(
         nft: NftModel.fromJson(json['nft'] as Map<String, dynamic>),
-        qr: json['qr'] as String?,
+        qr: QRModel.fromJson(json['qr'] as Map<String, dynamic>),
+      );
+}
+
+class QRModel {
+  final String? id;
+  final String? link;
+
+  QRModel({this.id, this.link});
+
+  factory QRModel.fromJson(Map<String, dynamic> json) => QRModel(
+        id: json["_id"] as String?,
+        link: json["link"] as String?,
       );
 }
 
