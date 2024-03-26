@@ -1,7 +1,7 @@
   import 'package:certify/data/controllers/all_manufacturer_projects_controller.dart';
 import 'package:certify/data/model_data/all_manufacturer_projects_model.dart';
 import 'package:certify/presentation/views/manufacturer_home/components/cards.dart';
-import 'package:certify/presentation/views/manufacturer_home/components/updateListProjects.dart';
+import 'package:certify/presentation/views/manufacturer_home/components/update_list_projects.dart';
 import 'package:certify/presentation/views/project_details/project_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

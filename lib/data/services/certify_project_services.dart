@@ -30,4 +30,22 @@ class ProjectServices with DioMixin {
     );
     return response;
   }
+
+  ///To get a specific nfts in a specific project
+  Future<Response<dynamic>> getSingleManufacturersNft(
+      String projectID, String nftID) async {
+    final customHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    };
+    final response = await connect(customHeaders: customHeaders).get(
+      '/details',
+      data: {
+        "project_id": projectID,
+        "nft_id": nftID,
+      },
+    );
+    return response;
+  }
 }

@@ -74,7 +74,6 @@ class _ProjectDetailsState extends ConsumerState<ProjectDetails>
     await ref
         .read(certifyProjectsController)
         .toGetAllManufacturerProjectsNFTs();
-    setState(() {});
   }
 
   @override
@@ -85,7 +84,7 @@ class _ProjectDetailsState extends ConsumerState<ProjectDetails>
           late LoadingState loadingState =
               ref.watch(certifyProjectsController).loadingState;
           late bool isLoading = loadingState == LoadingState.loading;
-          final nfts = ref
+          var nfts = ref
               .watch(certifyProjectsController)
               .allManufacturerProjectsNFTSModel
               .nfts;
@@ -121,7 +120,7 @@ class _ProjectDetailsState extends ConsumerState<ProjectDetails>
                                   height: 25.h,
                                   buttonOnPressed: () {
                                     // Navigate out of the ManufacturerHome dashboard
-                                   
+
                                     Navigator.of(context).push(MyFadeRoute(
                                         route: const CreateSingleNft()));
                                   },
@@ -130,7 +129,7 @@ class _ProjectDetailsState extends ConsumerState<ProjectDetails>
                             ).afmPadding(),
                             tableContainer(context, ref, holdVal, showToast)
                                 .afmPadding(),
-                            nfts == null
+                            (nfts == null || nfts.results!.isEmpty)
                                 ? Column(
                                     children: [
                                       Center(

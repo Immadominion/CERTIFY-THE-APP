@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-AnimatedPositioned iconAnimation(BuildContext context, Function() onTap, _isIconVisible) {
+AnimatedPositioned iconAnimation(BuildContext context, Function() onTap, isIconVisible) {
     return AnimatedPositioned(
       top: 35.h,
-      left: _isIconVisible ? 10.w : -kToolbarHeight,
+      left: isIconVisible ? 10.w : -kToolbarHeight,
       duration: const Duration(milliseconds: 200),
       child: InkWell(
         highlightColor: Colors.transparent,

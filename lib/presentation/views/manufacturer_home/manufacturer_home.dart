@@ -91,17 +91,14 @@ class _HomeState extends ConsumerState<Home>
                     child: Stack(
                       children: [
                         FutureBuilder(
-                          future: ref
-                              .read(certifyProjectsController)
-                              .toGetAllManufacturerProjects(),
+                          future: Future.value(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return const TransparentLoadingScreen();
                             } else if (snapshot.connectionState ==
                                 ConnectionState.done) {
-                              return buildGridView(
-                                  ref, isLoading, _controller);
+                              return buildGridView(ref, isLoading, _controller);
                             } else {
                               return const Center(
                                 child: TransparentLoadingScreen(),

@@ -9,7 +9,7 @@ Widget homePageCard(
   String title,
   BuildContext context,
   Widget route,
-  bool _forceReloadImage,
+  bool forceReloadImage,
 ) {
   return Transform.translate(
     offset: const Offset(0, 0),
@@ -58,7 +58,7 @@ Widget homePageCard(
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(50.r)),
                   child: CachedNetworkImage(
-                      key: ValueKey(_forceReloadImage),
+                      key: ValueKey(forceReloadImage),
                       imageUrl: name,
                       fit: BoxFit.fitHeight,
                       // width: double.maxFinite,

@@ -32,8 +32,6 @@ class AllProjectsController extends BaseChangeNotifier {
 
   Future<bool> toGetAllCertifyProjects() async {
     // Check if the entire model has data
-    debugPrint(
-        "Value of model is ==> ${allCertifiedProjectsModel.results?.length.toString()}");
     if (shouldReload || allCertifiedProjectsModel.results?.length == null) {
       try {
         // loadingState = LoadingState.loading;
