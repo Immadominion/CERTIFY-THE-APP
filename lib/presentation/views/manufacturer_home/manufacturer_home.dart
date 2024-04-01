@@ -32,20 +32,15 @@ class _HomeState extends ConsumerState<Home>
       duration: const Duration(seconds: 1),
     );
 
-    // _animation = Tween<double>(begin: 0, end: 1).animate(
-    //   CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    // )..addListener(() {});
-
     _projectsController = ref.read(certifyProjectsController.notifier);
 
-    Future.delayed(Duration.zero, fetchData);
-    _controller.forward();
+    // Future.delayed(Duration.zero, fetchData);
+    // _controller.forward();
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    // _animation.removeListener(() {});
     super.dispose();
   }
 
@@ -55,7 +50,6 @@ class _HomeState extends ConsumerState<Home>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("rebuilt object");
     return Scaffold(
       body: Consumer(builder: (context, ref, child) {
         final LoadingState loadingState =
@@ -91,7 +85,9 @@ class _HomeState extends ConsumerState<Home>
                     child: Stack(
                       children: [
                         FutureBuilder(
-                          future: Future.value(),
+                          future: ref
+                              .read(certifyProjectsController)
+                              .toGetAllManufacturerProjects(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {

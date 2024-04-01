@@ -5,8 +5,6 @@ import 'package:certify/data/local/local.dart';
 import 'package:certify/data/local/toast_service.dart';
 import 'package:certify/presentation/general_components/cta_button.dart';
 import 'package:certify/presentation/general_components/shared_loading.dart';
-import 'package:certify/presentation/views/create/create_nft.dart';
-import 'package:certify/presentation/views/manufacturer_home/components/my_fade_route.dart';
 import 'package:certify/presentation/views/nft_details/components/table_method_nft.dart';
 import 'package:certify/presentation/views/nft_details/nft_view.dart';
 import 'package:certify/presentation/views/project_details/components/icon_animation.dart';

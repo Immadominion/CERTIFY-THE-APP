@@ -99,8 +99,6 @@ class AllManufacturerProjectsController extends BaseChangeNotifier {
   }
 
   Future<bool> toGetAllManufacturerProjects() async {
-    debugPrint(
-        "Value of modal is ==> ${allManufacturerProjectsModel.projects.toString()}");
     if (shouldReload || allManufacturerProjectsModel.projects == null) {
       try {
         // loadingState = LoadingState.loading;

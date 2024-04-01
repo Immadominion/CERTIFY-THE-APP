@@ -24,7 +24,7 @@ class CertifyAuthNavigator extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "assets/images/padlock_coloured_outline.jpg",
+                    "assets/images/certify.png",
                     width: 200,
                     height: 200,
                     fit: BoxFit.contain,

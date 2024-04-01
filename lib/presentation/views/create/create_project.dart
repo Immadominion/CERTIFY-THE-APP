@@ -211,7 +211,7 @@ class _CreateProductState extends ConsumerState<CreateNewProject> {
                                     AwesomeDialog(
                                       context: context,
                                       animType: AnimType.scale,
-                                      dialogType: DialogType.success,
+                                      dialogType: DialogType.error,
                                       title: 'Failed',
                                       desc:
                                           'Your project could not be created!',

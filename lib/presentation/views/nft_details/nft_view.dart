@@ -5,7 +5,6 @@ import 'package:certify/data/controllers/all_manufacturer_projects_controller.da
 import 'package:certify/presentation/views/nft_details/components/build_image_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ViewNFT extends ConsumerStatefulWidget {

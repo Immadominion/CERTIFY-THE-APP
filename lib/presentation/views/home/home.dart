@@ -35,12 +35,7 @@ class CertifiedHomeState extends ConsumerState<CertifiedHome>
       duration: const Duration(seconds: 1),
     );
 
-    // Future.delayed(
-    //   Duration.zero,
-    //   () {
-    //     fetchData();
-    //   },
-    // );
+
   }
 
   Future<void> fetchData() async {
@@ -56,7 +51,6 @@ class CertifiedHomeState extends ConsumerState<CertifiedHome>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("All home rebuilt");
     return Scaffold(
       body: Consumer(
         builder: (context, ref, child) {

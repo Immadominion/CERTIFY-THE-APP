@@ -1,6 +1,7 @@
 import 'package:certify/core/theme/text_theme_manager.dart';
 import 'package:certify/data/controllers/certify_dashboard_controller.dart';
 import 'package:certify/presentation/general_components/shared_loading.dart';
+import 'package:certify/presentation/splash.dart';
 import 'package:certify/presentation/views/manufacturer_home/manufacturer_dashboard.dart';
 import 'package:certify/presentation/views/shared_auth/auth_navigation.dart';
 import 'package:certify/utils/locator.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
           themeMode: ThemeMode.system,
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
-          home: const MyApp(),
+          home: const CertifySplash(),
         ),
       ),
     ),
@@ -66,7 +67,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.system,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(103, 58, 183, 1)),
             useMaterial3: true,
             textTheme: certifyTheme,
           ),
